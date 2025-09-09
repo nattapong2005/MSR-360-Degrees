@@ -67,15 +67,23 @@ switch ($row['role']) {
 
     <section class="max-w-7xl mx-auto mt-10">
         <div class="bg-white p-6 shadow-md">
-            <h2 class="text-2xl font-bold mb-4">ยินดีต้อนรับสู่ระบบประเมินพนักงาน 360 องศา</h2>
-            <p class="text-gray-700 mb-4">ระบบนี้ช่วยให้คุณสามารถประเมินพนักงานในองค์กรของคุณได้อย่างมีประสิทธิภาพและครอบคลุมทุกมุมมอง</p>
-            <ul class="list-disc list-inside text-gray-700">
-                <li>ประเมินจากผู้จัดการ</li>
-                <li>ประเมินจากเพื่อนร่วมงาน</li>
-                <li>ประเมินจากตัวเอง</li>
-                <li>และอื่นๆ</li>
-            </ul>
+            <div class="flex justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold mb-4">ยินดีต้อนรับสู่ระบบประเมินพนักงาน 360 องศา</h2>
+                    <p class="text-gray-700 mb-4">ระบบนี้ช่วยให้คุณสามารถประเมินพนักงานในองค์กรของคุณได้อย่างมีประสิทธิภาพและครอบคลุมทุกมุมมอง</p>
+                    <ul class="list-disc list-inside text-gray-700">
+                        <li>ประเมินจากผู้จัดการ</li>
+                        <li>ประเมินจากเพื่อนร่วมงาน</li>
+                        <li>ประเมินจากตัวเอง</li>
+                        <li>และอื่นๆ</li>
+                    </ul>
+                </div>
+                <div>
+                    <a class="bg-[#320A6B] text-white hover:bg-blue-800 px-3 py-2 rounded" href="javascript:history.back()">ย้อนกลับ</a>
+                </div>
+            </div>
         </div>
+
     </section>
 
     <div class="max-w-7xl mx-auto mt-2">
@@ -91,20 +99,25 @@ switch ($row['role']) {
                 include 'test.php';
                 break;
             case 'peer_evaluate':
-                include 'form/peer_evaluate.php';
+                include 'evaluation_type/peer_evaluate.php';
                 break;
             case 'cross_evaluate':
-                include 'form/cross_evaluate.php';
+                include 'evaluation_type/cross_evaluate.php';
                 break;
             case 'manager_evaluate':
-                include 'form/manager_evaluate.php';
+                include 'evaluation_type/manager_evaluate.php';
                 break;
             case 'self_evaluate':
-                include 'form/self_evaluate.php';
+                include 'evaluation_type/self_evaluate.php';
                 break;
             case 'evaluate_type':
                 include 'pages/employee/evaluate_type.php';
                 break;
+                // Form Pages
+            case 'manager_form_evaluate':
+                include 'evaluation_type/form/manager.php';
+                break;
+                // ----
             case 'profile':
                 include 'profile.php';
                 break;
