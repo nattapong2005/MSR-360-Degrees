@@ -1,10 +1,19 @@
 <?php
-$department_id = $user['department_id'];
+
+$department_id = $_GET['department_id'];
+$period_id = $_SESSION['period_id'];
+$subject_id = $_GET['subject_id'];
+
+// หาคำถามของแผนกนี้
 $sql = "SELECT * FROM questions WHERE department_id = $department_id";
 $query = mysqli_query($conn, $sql);
-$period_id = $_SESSION['period_id'];
+
+$sqlSub = "SELECT * FROM users WHERE user_id = $subject_id";   
+$querySub = mysqli_query($conn, $sqlSub);   
+$rowSub = mysqli_fetch_assoc($querySub);
 
 ?>
+
 
 <?php
 mysqli_begin_transaction($conn);
@@ -17,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $total_score += (int)$score;
     }
     try {
-        $sqlEval = "INSERT INTO evaluations (period_id, subject_id, evaluation_type_id, status, submission_date) VALUES ($period_id, $user_id, 4, 'completed', NOW())";
+        $sqlEval = "INSERT INTO evaluations (period_id, subject_id, evaluator_id, evaluation_type_id, status, submission_date) VALUES ($period_id, $subject_id, $user_id, 2, 'completed', NOW())";
         mysqli_query($conn, $sqlEval);
         $evaluation_id = mysqli_insert_id($conn);
         $sqlAns = "INSERT INTO answers (evaluation_id, score, comment) VALUES ($evaluation_id, $total_score, '$comment' )";
@@ -32,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 ?>
 
-<h1 class="text-3xl font-bold mt-8 mb-4 text-gray-800">แบบประเมินตนเอง</h1>
+<h1 class="text-3xl font-bold mt-8 mb-4 text-gray-800">แบบประเมินคุณ, <?php echo $rowSub['name']; ?></h1>
 <section class="bg-white border border-gray-300 shadow-md rounded-lg p-6">
     <form action="" method="POST">
         <div class="space-y-6">

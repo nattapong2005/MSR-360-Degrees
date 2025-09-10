@@ -1,9 +1,12 @@
 <?php 
 
 $manager_id = $_SESSION['manager_id'];
+$period_id = $_SESSION['period_id'];
 $user = $_SESSION['user'];
 $department_id = $user['department_id'];
 
+
+// เลืกอกคำถามตามแผนก
 $sql = "SELECT * FROM questions WHERE department_id = $department_id";
 $query = mysqli_query($conn, $sql);
 ?>
@@ -20,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     try {
 
-        $sqlEval = "INSERT INTO evaluations (period_id, subject_id, status, submission_date) VALUES ($period_id, $user_id, 'completed', NOW())";
+        $sqlEval = "INSERT INTO evaluations (period_id, subject_id, evaluator_id, evaluation_type_id, status, submission_date) VALUES ($period_id, $manager_id,  $user_id, 3, 'completed', NOW())";
+        // echo $sqlEval;
         mysqli_query($conn, $sqlEval);
         $evaluation_id = mysqli_insert_id($conn);
 
@@ -36,8 +40,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 ?>
 
-<h1 class="text-3xl font-bold mt-8 mb-4 text-gray-800">แบบประเมินหัวหน้าแผนก</h1>
+
 <section class="bg-white border border-gray-300 shadow-md rounded-lg p-6">
+    <h1 class="text-3xl font-bold  mb-4 text-gray-800">แบบประเมินหัวหน้าแผนก</h1>
     <form action="" method="POST">
         <div class="space-y-6">
             <?php while ($row = mysqli_fetch_assoc($query)) { ?>

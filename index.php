@@ -9,6 +9,7 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
+
 $user = $_SESSION['user'];
 $user_id = $user['user_id'];
 $sql = "SELECT users.name,departments.department_name, users.role FROM users JOIN departments ON users.department_id = departments.department_id WHERE users.user_id = " . $user_id;
@@ -67,16 +68,16 @@ switch ($row['role']) {
 
     <section class="max-w-7xl mx-auto mt-10">
         <div class="bg-white p-6 shadow-md">
-            <div class="flex justify-between">
+            <div class="flex justify-between items-center">
                 <div>
                     <h2 class="text-2xl font-bold mb-4">ยินดีต้อนรับสู่ระบบประเมินพนักงาน 360 องศา</h2>
                     <p class="text-gray-700 mb-4">ระบบนี้ช่วยให้คุณสามารถประเมินพนักงานในองค์กรของคุณได้อย่างมีประสิทธิภาพและครอบคลุมทุกมุมมอง</p>
-                    <ul class="list-disc list-inside text-gray-700">
+                    <!-- <ul class="list-disc list-inside text-gray-700">
                         <li>ประเมินจากผู้จัดการ</li>
                         <li>ประเมินจากเพื่อนร่วมงาน</li>
                         <li>ประเมินจากตัวเอง</li>
                         <li>และอื่นๆ</li>
-                    </ul>
+                    </ul> -->
                 </div>
                 <div>
                     <a class="bg-[#320A6B] text-white hover:bg-blue-800 px-3 py-2 rounded" href="javascript:history.back()">ย้อนกลับ</a>
@@ -116,6 +117,12 @@ switch ($row['role']) {
                 // Form Pages
             case 'manager_form_evaluate':
                 include 'evaluation_type/form/manager.php';
+                break;
+            case 'cross_form_evaluate':
+                include 'evaluation_type/form/cross.php';
+                break;
+            case 'department_form':
+                include 'evaluation_type/form/department_form/form.php';
                 break;
                 // ----
             case 'profile':

@@ -1,0 +1,1 @@
+<h1>Manager kub</h1>

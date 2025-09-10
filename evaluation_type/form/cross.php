@@ -1,30 +1,32 @@
 <?php
 
-$sql = "SELECT
-    manager.user_id, manager.name FROM users AS employee JOIN users AS manager ON employee.manager_id = manager.user_id WHERE employee.user_id = $user_id";
-$query = mysqli_query($conn, $sql);
 $period_id = $_SESSION['period_id'];
+$department_id = $_GET['department_id'];
 
-// เช็คว่าคุณประเมินหัวหน้าไปแล้วหรือยัง
-$sqlCheck = "SELECT manager.user_id,manager.name,ev.status FROM users AS employee JOIN users AS manager ON employee.manager_id = manager.user_id LEFT JOIN evaluations AS ev ON ev.subject_id = manager.user_id  AND ev.evaluator_id = employee.user_id AND ev.period_id = $period_id WHERE employee.user_id = $user_id";
+// คนในแผนกที่ส่งมาจาก cross_evaluate.php
+$sql = "SELECT * FROM users WHERE department_id = $department_id AND user_id != $user_id";
+$query = mysqli_query($conn, $sql);
+
+
+// เช็คว่าคุณประเมินไปแล้วหรือยัง
+$sqlCheck = "SELECT u.user_id, u.name, ev.status FROM users AS u LEFT JOIN evaluations AS ev ON u.user_id = ev.subject_id AND ev.evaluator_id = $user_id AND ev.period_id = $period_id WHERE u.department_id = $department_id AND u.user_id != $user_id";
 $queryCheck = mysqli_query($conn, $sqlCheck);
 $rowCheck = mysqli_fetch_assoc($queryCheck);
 
+$sqlDept = "SELECT * FROM departments WHERE department_id = $department_id";
+$queryDept = mysqli_query($conn, $sqlDept);
+$rowDept = mysqli_fetch_assoc($queryDept);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $manager_id = $_POST['manager_id'];
-    $_SESSION['manager_id'] = $manager_id;
-    header('location: ?page=manager_form_evaluate');
+    $subject_id = $_POST['subject_id'];
+    // $_SESSION['manager_id'] = $manager_id;
+    header('location: ?page=department_form&department_id=' . $department_id . '&subject_id=' . $subject_id);
 }
 
 ?>
 
-
-
-
-<section class="p-6">
-    <h1 class="text-3xl font-bold mb-2">ประเมินหัวหน้าแผนก</h1>
+<section class="">
+    <h1 class="text-3xl font-bold mb-2">แผนก <?= $rowDept['department_name'] ?></h1>
     <div class="overflow-x-auto">
         <table class="w-full text-left border border-gray-300 shadow-lg rounded-lg">
             <thead class="bg-[#320A6B] text-white">
@@ -36,13 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </thead>
             <tbody class="bg-white">
                 <?php
-
                 while ($row = mysqli_fetch_assoc($query)) {
-
                     // $_SESSION['manager_id'] = $row['user_id'];
                 ?>
                     <tr class="hover:bg-slate-100 transition">
-
                         <td class="py-2 px-4 border-b border-slate-200"><?php echo htmlspecialchars($row['name']); ?></td>
                         <td class="py-3 px-4 border-b border-slate-200">
                             <?php if ($rowCheck['status'] == 'completed'): ?>
@@ -57,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </td>
                         <td>
                             <form action="" method="POST">
-                                <input type="hidden" name="manager_id" value="<?php echo $row['user_id']; ?>">
+                                <input type="hidden" name="subject_id" value="<?php echo $row['user_id']; ?>">
                                 <button type="submit" class="bg-[#320A6B] text-sm text-white font-semibold px-2.5 py-1 rounded-full cursor-pointer">ประเมิน</button>
                             </form>
                         </td>
