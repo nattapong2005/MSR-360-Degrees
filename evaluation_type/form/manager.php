@@ -1,6 +1,6 @@
 <?php 
 
-$manager_id = $_SESSION['manager_id'];
+$manager_id = $_GET['manager_id'];
 $period_id = $_SESSION['period_id'];
 $user = $_SESSION['user'];
 $department_id = $user['department_id'];

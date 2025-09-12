@@ -1,34 +1,17 @@
-<?php
+<?php 
 
 $period_id = $_SESSION['period_id'];
-$department_id = $_GET['department_id'];
+$sql = "SELECT manager.user_id,manager.name,d.department_name,ev.status FROM users AS manager JOIN departments as d ON manager.department_id = d.department_id
+LEFT JOIN evaluations AS ev ON ev.subject_id = manager.user_id AND ev.evaluator_id = $user_id AND ev.period_id = $period_id
+WHERE manager.role = 'manager'";
+$query = mysqli_query($conn, $sql)
 
-// คนในแผนกที่ส่งมาจาก cross_evaluate.php
-$sql = "SELECT users.user_id,users.name,departments.department_name FROM users 
-JOIN departments ON users.department_id = departments.department_id
-WHERE users.department_id = $department_id ";
-$query = mysqli_query($conn, $sql);
-
-
-// เช็คว่าคุณประเมินไปแล้วหรือยัง
-$sqlCheck = "SELECT u.user_id, u.name, ev.status FROM users AS u LEFT JOIN evaluations AS ev ON u.user_id = ev.subject_id AND ev.evaluator_id = $user_id AND ev.period_id = $period_id WHERE u.department_id = $department_id AND u.user_id != $user_id";
-$queryCheck = mysqli_query($conn, $sqlCheck);
-$rowCheck = mysqli_fetch_assoc($queryCheck);
-
-$sqlDept = "SELECT * FROM departments WHERE department_id = $department_id";
-$queryDept = mysqli_query($conn, $sqlDept);
-$rowDept = mysqli_fetch_assoc($queryDept);
-
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     // $subject_id = $_POST['subject_id'];
-//     // $_SESSION['manager_id'] = $manager_id;
-//     header('location: ?page=department_form&department_id=' . $department_id . '&subject_id=' . $subject_id);
-// }
 
 ?>
 
-<section class="">
-    <h1 class="text-3xl font-bold mb-2">แผนก <?= $rowDept['department_name'] ?></h1>
+
+<section class="p-6">
+    <h1 class="text-3xl font-bold mb-2">ประเมินหัวหน้าแผนก</h1>
     <div class="overflow-x-auto">
         <table class="w-full text-left border border-gray-300 shadow-lg rounded-lg">
             <thead class="bg-[#320A6B] text-white">
@@ -41,15 +24,17 @@ $rowDept = mysqli_fetch_assoc($queryDept);
             </thead>
             <tbody class="bg-white">
                 <?php
-                while ($row = mysqli_fetch_assoc($query)) {
-                    // $_SESSION['manager_id'] = $row['user_id'];
 
+                while ($row = mysqli_fetch_assoc($query)) {
+
+                    // $_SESSION['manager_id'] = $row['user_id'];
                 ?>
                     <tr class="hover:bg-slate-100 transition">
+
                         <td class="py-2 px-4 border-b border-slate-200"><?php echo htmlspecialchars($row['name']); ?></td>
                         <td class="py-2 px-4 border-b border-slate-200"><?php echo htmlspecialchars($row['department_name']); ?></td>
                         <td class="py-3 px-4 border-b border-slate-200">
-                            <?php if ($rowCheck['status'] == 'completed'): ?>
+                            <?php if ($row['status'] == 'completed'): ?>
                                 <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-1 rounded-full">
                                     ประเมินแล้ว
                                 </span>
@@ -60,7 +45,8 @@ $rowDept = mysqli_fetch_assoc($queryDept);
                             <?php endif; ?>
                         </td>
                         <td>
-                            <a href="?page=department_form&department_id=<?= $department_id ?>&subject_id=<?= $row['user_id'] ?>" class="bg-[#320A6B] text-sm text-white font-semibold px-2.5 py-1 rounded-full cursor-pointer">ประเมิน</a>
+                            <a href="?page=manager_form_evaluate&manager_id=<?php echo $row['user_id']; ?>" class="bg-[#320A6B] text-sm text-white font-semibold px-2.5 py-1 rounded-full cursor-pointer">ประเมิน</a>
+
                         </td>
                     </tr>
                 <?php } ?>

@@ -4,6 +4,20 @@ $sql = "SELECT * FROM questions WHERE department_id = $department_id";
 $query = mysqli_query($conn, $sql);
 $period_id = $_SESSION['period_id'];
 
+
+$sqlCheck = "SELECT ev.status FROM evaluations as ev 
+WHERE ev.subject_id = $user_id AND ev.evaluator_id = $user_id AND ev.status = 'completed'";
+$queryCheck = mysqli_query($conn, $sqlCheck);
+$rowCheck = mysqli_fetch_assoc($queryCheck);
+
+if (mysqli_num_rows($queryCheck) > 0) {
+    $color = "bg-green-500";
+    $status = "ประเมินแล้ว";
+} else {
+    $status = "ยังไม่ได้ประเมิน";
+    $color = "bg-yellow-500";
+}
+
 ?>
 
 <?php
@@ -17,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $total_score += (int)$score;
     }
     try {
-        $sqlEval = "INSERT INTO evaluations (period_id, subject_id, evaluation_type_id, status, submission_date) VALUES ($period_id, $user_id, 4, 'completed', NOW())";
+        $sqlEval = "INSERT INTO evaluations (period_id, subject_id, evaluator_id, evaluation_type_id, status, submission_date) VALUES ($period_id, $user_id, $user_id, 4, 'completed', NOW())";
         mysqli_query($conn, $sqlEval);
         $evaluation_id = mysqli_insert_id($conn);
         $sqlAns = "INSERT INTO answers (evaluation_id, score, comment) VALUES ($evaluation_id, $total_score, '$comment' )";
@@ -29,10 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Error: " . $e->$getMessage();
     }
 }
-
 ?>
 
-<h1 class="text-3xl font-bold mt-8 mb-4 text-gray-800">แบบประเมินตนเอง</h1>
+<div class="flex justify-between items-center mb-5">
+    <h1 class="text-3xl font-extrabold text-gray-800  flex items-center gap-3">
+        <i class="fas fa-user-check"></i> ประเมินตนเอง
+    </h1>
+    <a class="bg-red-700 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+</div>
 <section class="bg-white border border-gray-300 shadow-md rounded-lg p-6">
     <form action="" method="POST">
         <div class="space-y-6">
@@ -70,11 +88,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
         <div class="mt-8 text-right">
-            <button
-                type="submit"
-                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow">
-                ส่งแบบประเมิน
-            </button>
+            <?php
+            if ($status == "ประเมินแล้ว") {
+                echo '<button type="button" class="bg-gray-400 text-white font-semibold px-6 py-2 rounded shadow cursor-not-allowed" disabled>ประเมินแล้ว</button>';
+            } else {
+            ?>
+                <button
+                    type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded shadow">
+                    ส่งแบบประเมิน
+                </button>
+            <?php } ?>
         </div>
     </form>
 </section>
