@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <div class="flex min-h-screen">
 
+
         <!-- Left Pane: Image -->
         <div class="hidden lg:block w-1/2 bg-cover bg-center">
             <div class="w-full h-full bg-black bg-opacity-40 flex items-center justify-center p-12">
@@ -61,6 +62,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <h1 class="text-3xl font-bold text-gray-800 mt-4">360° Feedback</h1>
                     <p class="text-gray-500">เข้าสู่ระบบเพื่อประเมินผลการทำงาน</p>
                 </div>
+
+                <?php if ($error) { ?>
+                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-5" role="alert">
+                        <span class="block sm:inline"><?= $error ?></span>
+                    </div>
+                <?php } ?>
 
                 <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
 

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $period_id = $_SESSION['period_id'];
 $department_id = $user['department_id'];
@@ -49,10 +49,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo "Error: " . $e->$getMessage();
     }
 }
-?>     
+?>
 
-<h1 class="text-3xl font-bold mt-8 mb-4 text-gray-800">แบบประเมินคุณ, <?= $rowFind['name'] ?> </h1>
+
 <section class="bg-white border border-gray-300 shadow-md rounded-lg p-6">
+    <div class="flex flex-wrap justify-end sm:justify-between items-center mb-5">
+        <h1 class="text-3xl font-bold  mb-4 text-gray-800"><i class="fa-solid fa-user-group"></i> แบบประเมินคุณ, <?= $rowFind['name'] ?> </h1>
+        <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+    </div>
     <form action="" method="POST">
         <div class="space-y-6">
             <?php while ($row = mysqli_fetch_assoc($query)) { ?>
@@ -88,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
 
-                <div class="mt-8 text-right">
+        <div class="mt-8 text-right">
             <?php
             if ($status == "ประเมินแล้ว") {
                 echo '<button type="button" class="bg-gray-400 text-white font-semibold px-6 py-2 rounded shadow cursor-not-allowed" disabled>ประเมินแล้ว</button>';

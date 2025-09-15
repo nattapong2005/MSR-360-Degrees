@@ -26,17 +26,19 @@ $query = mysqli_query($conn, $sql);
             </p>
         </div>
         <div>
-            <a class="bg-red-700 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+            <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
 
         </div>
     </div>
 
     <!-- รายการแผนก -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <?php while ($row = mysqli_fetch_assoc($query)) { ?>
             <a href="?page=cross_form_evaluate&department_id=<?= $row['department_id'] ?>"
-                class="flex flex-col items-center justify-center text-center gap-3 w-full font-semibold text-red-700 bg-white border border-red-700 p-5 rounded-lg shadow hover:bg-[#f5f4fa] hover:-translate-y-1 transition-transform duration-300 group">
-                <i class="fa-solid fa-users-line text-4xl text-red-700 group-hover:text-red-600 transition"></i>
+                class="flex flex-col items-center justify-center text-center gap-3 w-full font-semibold bg-white p-5 rounded-lg shadow-md border border-gray-300 hover:border-red-700 group">
+                <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:bg-red-600 group-hover:text-white transition">
+                    <i class="fa-solid fa-users-line"></i>
+                </div>
                 <span class="text-lg">แผนก <?= htmlspecialchars($row['department_name']) ?></span>
             </a>
         <?php } ?>

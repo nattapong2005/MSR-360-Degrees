@@ -5,8 +5,8 @@ $query = mysqli_query($conn, $sql);
 $period_id = $_SESSION['period_id'];
 
 
-$sqlCheck = "SELECT ev.status FROM evaluations as ev 
-WHERE ev.subject_id = $user_id AND ev.evaluator_id = $user_id AND ev.status = 'completed'";
+$sqlCheck = "SELECT ev.period_id,ev.status FROM evaluations as ev 
+WHERE ev.subject_id = $user_id AND ev.evaluator_id = $user_id AND ev.status = 'completed' AND ev.period_id = $period_id";
 $queryCheck = mysqli_query($conn, $sqlCheck);
 $rowCheck = mysqli_fetch_assoc($queryCheck);
 
@@ -45,13 +45,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<div class="flex justify-between items-center mb-5">
-    <h1 class="text-3xl font-extrabold text-gray-800  flex items-center gap-3">
-        <i class="fas fa-user-check"></i> ประเมินตนเอง
-    </h1>
-    <a class="bg-red-700 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
-</div>
 <section class="bg-white border border-gray-300 shadow-md rounded-lg p-6">
+    <div class="flex justify-between items-center mb-5">
+        <h1 class="text-3xl font-extrabold text-gray-800  flex items-center gap-3">
+            <i class="fas fa-user-check"></i> ประเมินตนเอง
+        </h1>
+        <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+    </div>
     <form action="" method="POST">
         <div class="space-y-6">
             <?php while ($row = mysqli_fetch_assoc($query)) { ?>

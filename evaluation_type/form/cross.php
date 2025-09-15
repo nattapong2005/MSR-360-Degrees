@@ -28,15 +28,20 @@ $rowDept = mysqli_fetch_assoc($queryDept);
 ?>
 
 <section class="">
-    <h1 class="text-3xl font-bold mb-2">แผนก <?= $rowDept['department_name'] ?></h1>
+    <div class="flex justify-between items-center mb-5">
+        <h1 class="text-3xl font-bold mb-2"><i class="fa-solid fa-book"></i> แผนก <?= $rowDept['department_name'] ?></h1>
+        <a class="bg-[#16213E] text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+
+    </div>
+
     <div class="overflow-x-auto">
         <table class="w-full text-left border border-gray-300 shadow-lg rounded-lg">
-            <thead class="bg-[#320A6B] text-white">
+            <thead class="bg-[#16213E] text-white">
                 <tr>
-                    <th class="py-3 px-4 border-b border-slate-300">ชื่อ-สกุล</th>
-                    <th class="py-3 px-4 border-b border-slate-300">แผนก</th>
-                    <th class="py-3 px-4 border-b border-slate-300">สถานะ</th>
-                    <th class="py-3 px-4 border-b border-slate-300">การดำเนินการ</th>
+                    <th class="py-3 px-4 border-b border-gray-300"><i class="fas fa-user"></i> ชื่อ-สกุล</th>
+                    <th class="py-3 px-4 border-b border-gray-300"><i class="fas fa-building"></i> แผนก</th>
+                    <th class="py-3 px-4 border-b border-gray-300"><i class="fas fa-info-circle"></i> สถานะ</th>
+                    <th class="py-3 px-4 border-b border-gray-300"><i class="fas fa-tasks"></i> การดำเนินการ</th>
                 </tr>
             </thead>
             <tbody class="bg-white">
@@ -60,7 +65,7 @@ $rowDept = mysqli_fetch_assoc($queryDept);
                             <?php endif; ?>
                         </td>
                         <td>
-                            <a href="?page=department_form&department_id=<?= $department_id ?>&subject_id=<?= $row['user_id'] ?>" class="bg-[#320A6B] text-sm text-white font-semibold px-2.5 py-1 rounded-full cursor-pointer">ประเมิน</a>
+                            <a href="?page=department_form&department_id=<?= $department_id ?>&subject_id=<?= $row['user_id'] ?>" class="bg-[#16213E] hover:bg-red-700 text-sm text-white font-semibold px-2.5 py-1 rounded-full cursor-pointer"><i class="fas fa-pen-to-square"></i> ประเมิน</a>
                         </td>
                     </tr>
                 <?php } ?>

@@ -32,11 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h1 class="text-3xl font-extrabold text-gray-800  flex items-center gap-3">
             <i class="fas fa-users"></i> ประเมินในแผนก
         </h1>
-        <a class="bg-red-700 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+        <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
     </div>
     <div class="overflow-x-auto">
         <table class="w-full text-left border border-gray-300 shadow-lg rounded-lg">
-            <thead class="bg-red-700 text-white">
+            <thead class="bg-[#16213E] text-white">
                 <tr>
                     <th class="py-3 px-4 border-b border-gray-300"><i class="fas fa-user"></i> ชื่อ-สกุล</th>
                     <th class="py-3 px-4 border-b border-gray-300"><i class="fas fa-building"></i> แผนก</th>
@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <?php endif; ?>
                         </td>
                         <td>
-                            <a href="?page=peer_form_evaluate&subject_id=<?php echo $rowCheck['user_id']; ?>" class="bg-black text-sm text-white font-semibold px-2.5 py-1 rounded-full cursor-pointer"><i class="fas fa-pen-to-square"></i> ประเมิน</a>
+                            <a href="?page=peer_form_evaluate&subject_id=<?php echo $rowCheck['user_id']; ?>" class="bg-[#16213E] hover:bg-red-700 text-sm text-white font-semibold px-2.5 py-1 rounded-full cursor-pointer"><i class="fas fa-pen-to-square"></i> ประเมิน</a>
                         </td>
                     </tr>
                 <?php } ?>

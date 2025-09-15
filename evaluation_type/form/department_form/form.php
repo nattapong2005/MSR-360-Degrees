@@ -8,8 +8,8 @@ $subject_id = $_GET['subject_id'];
 $sql = "SELECT * FROM questions WHERE department_id = $department_id";
 $query = mysqli_query($conn, $sql);
 
-$sqlSub = "SELECT * FROM users WHERE user_id = $subject_id";   
-$querySub = mysqli_query($conn, $sqlSub);   
+$sqlSub = "SELECT * FROM users WHERE user_id = $subject_id";
+$querySub = mysqli_query($conn, $sqlSub);
 $rowSub = mysqli_fetch_assoc($querySub);
 
 $sqlCheck = "SELECT ev.status FROM evaluations as ev 
@@ -54,7 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 ?>
 
-<h1 class="text-3xl font-bold mt-8 mb-4 text-gray-800">แบบประเมินคุณ, <?php echo $rowSub['name']; ?></h1>
+
+
+<div class="flex justify-between items-center">
+    <h1 class="text-3xl font-bold mt-8 mb-4 text-gray-800"><i class="fa-regular fa-user"></i> แบบประเมินคุณ, <?php echo $rowSub['name']; ?></h1>
+    <a class="bg-[#16213E] text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+</div>
+
 <section class="bg-white border border-gray-300 shadow-md rounded-lg p-6">
     <form action="" method="POST">
         <div class="space-y-6">
@@ -91,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
 
-               <div class="mt-8 text-right">
+        <div class="mt-8 text-right">
             <?php
             if ($status == "ประเมินแล้ว") {
                 echo '<button type="button" class="bg-gray-400 text-white font-semibold px-6 py-2 rounded shadow cursor-not-allowed" disabled>ประเมินแล้ว</button>';

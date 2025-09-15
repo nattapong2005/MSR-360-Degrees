@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $manager_id = $_GET['manager_id'];
 $period_id = $_SESSION['period_id'];
@@ -42,7 +42,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
 <section class="bg-white border border-gray-300 shadow-md rounded-lg p-6">
-    <h1 class="text-3xl font-bold  mb-4 text-gray-800">แบบประเมินหัวหน้าแผนก</h1>
+   <div class="flex justify-between items-center mb-5">
+     <h1 class="text-3xl font-bold  mb-4 text-gray-800"><i class="fa-brands fa-web-awesome"></i> แบบประเมินหัวหน้าแผนก</h1>
+    <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+   </div>
     <form action="" method="POST">
         <div class="space-y-6">
             <?php while ($row = mysqli_fetch_assoc($query)) { ?>
