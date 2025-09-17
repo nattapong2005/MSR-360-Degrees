@@ -1,6 +1,6 @@
 <?php
 
-if(isset($_GET['period_id'])) {
+if (isset($_GET['period_id'])) {
     $_SESSION['period_id'] = $_GET['period_id'];
 }
 
@@ -21,8 +21,10 @@ $evaluates = [
 ?>
 
 <section class="px-4 py-6 bg-gray-50 min-h-screen">
-    <h1 class="text-3xl font-extrabold text-gray-800 mb-6 "><i class="fa-solid fa-book"></i> <?= $period['period_name'] ?> </h1>
-
+    <div class="flex justify-between items-center mb-5">
+        <h1 class="text-3xl font-extrabold text-gray-800"><i class="fa-solid fa-book"></i> <?= $period['period_name'] ?> </h1>
+        <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+    </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <?php foreach ($evaluates as $ev) { ?>
             <a href="<?= $ev['url']; ?>" class="group block bg-white border border-gray-200 rounded-xl p-6 shadow hover:shadow-lg hover:border-red-600 transition duration-300 ease-in-out">

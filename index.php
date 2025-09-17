@@ -135,6 +135,28 @@ switch ($row['role']) {
                         case 'dashboard':
                             include 'pages/admin/dashboard.php';
                             break;
+                        // Admin kub
+                        case 'user_manage':
+                            include 'pages/admin/user/user.php';
+                            break;
+                        case 'create_user':
+                            include 'pages/admin/user/create.php';
+                            break;
+                        case 'edit_user':
+                            include 'pages/admin/user/edit.php';
+                            break;
+                        case 'department_rule':
+                            include 'pages/admin/user/rule/department_rule.php';
+                            break;
+                        case 'select_department':
+                            include 'pages/admin/user/rule/select_department.php';
+                            break;
+                        case 'evaluation':
+                            include 'pages/admin/evaluation/evaluation.php';
+                            break;
+                        case 'department':
+                            include 'pages/admin/department/department.php';
+                            break;
                         default:
                             include 'main.php';
                             break;

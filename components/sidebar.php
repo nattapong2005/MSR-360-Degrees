@@ -8,9 +8,9 @@ $current_page = $_GET['page'] ?? 'main';
             <i class="fas fa-times text-2xl"></i> </button>
 
         <h2 class="text-xl font-bold">ระบบประเมิน 360°</h2>
-        <p class="text-sm mt-4">สวัสดีคุณ, <?= htmlspecialchars($row['name']) ?></p>
-        <p class=" mt-1">แผนก: <?= htmlspecialchars($row['department_name']) ?></p>
-        <p class="">ตำแหน่ง: <?= htmlspecialchars($user_role) ?></p>
+        <p class="text-sm mt-4">สวัสดีคุณ : <?= htmlspecialchars($row['name']) ?></p>
+        <p class=" mt-1">แผนก : <?= htmlspecialchars($row['department_name']) ?></p>
+        <p class="">ตำแหน่ง : <?= htmlspecialchars($user_role) ?></p>
     </div>
 
     <nav class="flex-grow p-4">
@@ -20,23 +20,26 @@ $current_page = $_GET['page'] ?? 'main';
                     <i class="fa-solid fa-house"></i> หน้าหลัก
                 </a>
             </li>
+
+            <?php
+            // เมนูสำหรับ Admin
+            if ($row['role'] == 'admin') {
+                echo '<li><a href="?page=user_manage" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'user_manage') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-users-gear"></i> จัดการผู้ใช้งาน</a></li>';
+                echo '<li><a href="?page=department" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'department') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-hotel"></i> จัดการแผนก</a></li>';
+                echo '<li><a href="?page=evaluation" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'evaluation') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-calendar"></i> จัดการประเมิน</a></li>';
+                echo '<li><a href="?page=select_department" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'select_department') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-pen"></i> จัดการสิทธิ์ประเมิน</a></li>';
+            }
+
+            // เมนูสำหรับ CEO
+            // if ($row['role'] == 'ceo') {
+            //     echo '<li><a href="?page=ceo_dashboard" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'ceo_dashboard') ? 'bg-red-700' : '') . '">รายงานผล</a></li>';
+            // }
+            ?>
             <li>
                 <a href="?page=account" class="block px-4 py-2 rounded-md hover:bg-red-700 transition <?= ($current_page == 'account' || $current_page == '') ? 'bg-red-700' : '' ?>">
                     <i class="fa-solid fa-user"></i> บัญชี
                 </a>
             </li>
-
-            <?php
-            // เมนูสำหรับ Admin
-            if ($row['role'] == 'admin') {
-                echo '<li><a href="?page=dashboard" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'dashboard') ? 'bg-red-700' : '') . '">แผงควบคุม</a></li>';
-            }
-
-            // เมนูสำหรับ CEO
-            if ($row['role'] == 'ceo') {
-                echo '<li><a href="?page=ceo_dashboard" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'ceo_dashboard') ? 'bg-red-700' : '') . '">รายงานผล</a></li>';
-            }
-            ?>
             <li>
                 <a href="logout.php" class="block px-4 py-2 rounded-md hover:bg-red-700 transition">
                     <i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ

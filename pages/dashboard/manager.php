@@ -8,7 +8,7 @@ $period_id = $_SESSION['period_id'];
 $filter_department = isset($_GET['department']) ? $_GET['department'] : '';
 
 // ดึงรายชื่อแผนกทั้งหมด สำหรับ dropdown
-$dept_query = "SELECT department_id, department_name FROM departments ORDER BY department_name ASC";
+$dept_query = "SELECT department_id, department_name FROM departments";
 $dept_result = mysqli_query($conn, $dept_query);
 
 
@@ -67,11 +67,14 @@ $result = mysqli_stmt_get_result($stmt_data);
 ?>
 
 <div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow">
-    <h2 class="text-2xl font-bold mb-4 text-gray-800"> รายงานผลการประเมินหัวหน้าแผนก</h2>
+    <div class="flex justify-between items-center mb-5">
+        <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-chart-simple"></i> รายงานผลการประเมินผลหัวหน้าแผนก</h2>
+        <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+    </div>
 
     <form method="GET" class="mb-6 flex items-center gap-4">
         <input type="hidden" name="page" value="manager_dashboard">
-        <label for="department" class="text-gray-700 font-medium">ค้นหาตามแผนก:</label>
+        <!-- <label for="department" class="text-gray-700 font-medium">ค้นหาตามแผนก:</label> -->
         <select name="department" id="department" class="border rounded px-3 py-2">
             <option value="">-- ทุกแผนก --</option>
             <?php mysqli_data_seek($dept_result, 0); // รีเซ็ต pointer ของ result set 
@@ -82,14 +85,14 @@ $result = mysqli_stmt_get_result($stmt_data);
                 </option>
             <?php endwhile; ?>
         </select>
-        <button type="submit" class="bg-[#320A6B] text-white px-4 py-2 rounded hover:bg-blue-800">ค้นหา</button>
+        <button type="submit" class="bg-[#16213E] text-white px-4 py-2 rounded hover:bg-blue-800">ค้นหา</button>
         <a href="index.php?page=manager_dashboard" class="text-sm text-gray-500 hover:underline ml-2">รีเซ็ต</a>
     </form>
 
     <?php if ($total_records > 0): ?>
         <div class="overflow-x-auto">
             <table class="min-w-full border-collapse border border-gray-300">
-                <thead class="bg-[#320A6B] text-white">
+                <thead class="bg-[#16213E] text-white">
                     <tr>
                         <th class="p-2 text-left text-sm">ชื่อหัวหน้าแผนก</th>
                         <th class="p-2 text-left text-sm">ผู้ประเมิน</th>
@@ -107,7 +110,7 @@ $result = mysqli_stmt_get_result($stmt_data);
                             <td class="p-2"><?= htmlspecialchars($row['evaluator_name']) . " (" . htmlspecialchars($row['evaluator_department']) . ")" ?></td>
                             <td class="p-2 font-bold"><?= htmlspecialchars($row['score']) ?></td>
                             <td class="p-2 w-[622px]"><?= nl2br(htmlspecialchars($row['comment'])) ?></td>
-                             <?php if($role == "admin"): ?>
+                            <?php if ($role == "admin"): ?>
                                 <td class="p-2"><a href="#" class="text-red-600 hover:underline">ลบ</a></td>
                             <?php endif; ?>
                         </tr>
@@ -128,7 +131,7 @@ $result = mysqli_stmt_get_result($stmt_data);
                     $is_active = ($i == $current_page);
                     // กำหนด class ตามสถานะของหน้า
                     $class = $is_active
-                        ? 'z-10 bg-[#4e1f91] text-white'
+                        ? 'z-10 bg-[#16213E] text-white'
                         : 'bg-white text-gray-500 hover:bg-gray-50';
                     ?>
                     <a href="<?= $link ?>" class="relative inline-flex items-center px-4 py-2 border text-sm font-medium <?= $class ?>">

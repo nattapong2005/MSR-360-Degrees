@@ -25,37 +25,6 @@ switch ($row['role']) {
 
 $created_date = date("d F Y, H:i", strtotime($row['created_at']));
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    $new_password = $_POST['new_password'];
-    $confirm_password = $_POST['confirm_password'];
-
-    if(empty($new_password) && empty($confirm_password)) {
-        echo "empty password " ;
-        return;
-    }
-
-    if(empty($new_password) || empty($confirm_password)) {
-        echo "some password empty " ;
-        return;
-    }
-
-    if ($new_password !== $confirm_password) {
-        echo "password not match " ;
-        return;
-    }
-
-    if($new_password == $confirm_password) {
-        $hashed_password = md5($new_password); 
-        $update_sql = "UPDATE users SET password = '$hashed_password' WHERE user_id = $user_id";
-        if (mysqli_query($conn, $update_sql)) {
-            echo "<script>alert('เปลี่ยนรหัสผ่านสำเร็จ'); window.location.href='logout.php';</script>";
-        } else {
-            echo "Error updating record: " . mysqli_error($conn);
-        }
-    }
-}
-
 ?>
 
 <section class="container mx-auto max-w-4xl w-full bg-white rounded-xl shadow-lg p-6 md:p-8">
@@ -136,9 +105,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <div class="mt-8 text-right">
             <button type="submit" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition duration-150 cursor-pointer">
-                บันทึกการเปลี่ยนแปลง
+                <i class="fa-solid fa-floppy-disk"></i> บันทึกการเปลี่ยนแปลง
             </button>
         </div>
 
     </form>
 </section>
+
+<?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $new_password = $_POST['new_password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    if (empty($new_password) && empty($confirm_password)) {
+        showToast("error", "กรุณากรอกรหัสผ่านใหม่");
+        return;
+    }
+
+    if (empty($new_password) || empty($confirm_password)) {
+        showToast("error", "กรุณากรอกยืนยันรหัสผ่านใหม่");;
+        return;
+    }
+
+    if ($new_password !== $confirm_password) {
+        showToast("error", "รหัสผ่านไม่ตรงกัน");
+        return;
+    }
+
+    if (strlen($new_password) < 8) {
+        showToast("error", "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร");
+        return;
+    }
+
+    if ($new_password == $confirm_password) {
+        $hashed_password = md5($new_password);
+        $update_sql = "UPDATE users SET password = '$hashed_password' WHERE user_id = $user_id";
+        if (mysqli_query($conn, $update_sql)) {
+            ToastWithRedirect("success", "เปลี่ยนรหัสผ่านสําเร็จ", "logout.php");
+        } else {
+            // echo "Error updating record: " . mysqli_error($conn);
+            showToast("error", "เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน");
+        }
+    }
+}
+
+?>

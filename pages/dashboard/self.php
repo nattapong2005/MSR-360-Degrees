@@ -40,7 +40,9 @@ if (!empty($filter_department)) {
 // --- นับจำนวนและดึงข้อมูล (Logic ส่วนนี้เหมือนเดิมทั้งหมด) ---
 $count_sql = "SELECT COUNT(*) AS total " . $base_sql;
 $stmt_count = mysqli_prepare($conn, $count_sql);
-if (!empty($params)) { mysqli_stmt_bind_param($stmt_count, $types, ...$params); }
+if (!empty($params)) {
+    mysqli_stmt_bind_param($stmt_count, $types, ...$params);
+}
 mysqli_stmt_execute($stmt_count);
 $count_result = mysqli_stmt_get_result($stmt_count);
 $total_records = mysqli_fetch_assoc($count_result)['total'];
@@ -63,11 +65,14 @@ $result = mysqli_stmt_get_result($stmt_data);
 ?>
 
 <div class="max-w-7xl mx-auto bg-white p-6 rounded-lg shadow">
-    <h2 class="text-2xl font-bold mb-4 text-gray-800">รายงานผลการประเมินตนเอง</h2>
+    <div class="flex justify-between items-center mb-5">
+        <h2 class="text-2xl font-bold text-gray-800"><i class="fa-solid fa-chart-simple"></i> รายงานผลการประเมินผลตนเอง</h2>
+        <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
+    </div>
 
     <form method="GET" class="mb-6 flex items-center gap-4">
         <input type="hidden" name="page" value="self_dashboard">
-        <label for="department" class="text-gray-700 font-medium">ค้นหาตามแผนก:</label>
+        <!-- <label for="department" class="text-gray-700 font-medium">ค้นหาตามแผนก:</label> -->
         <select name="department" id="department" class="border rounded px-3 py-2">
             <option value="">-- ทุกแผนก --</option>
             <?php mysqli_data_seek($dept_result, 0); ?>
@@ -77,19 +82,19 @@ $result = mysqli_stmt_get_result($stmt_data);
                 </option>
             <?php endwhile; ?>
         </select>
-        <button type="submit" class="bg-[#320A6B] text-white px-4 py-2 rounded hover:bg-blue-800">ค้นหา</button>
+        <button type="submit" class="bg-[#16213E] text-white px-4 py-2 rounded hover:bg-blue-800">ค้นหา</button>
         <a href="index.php?page=self_dashboard" class="text-sm text-gray-500 hover:underline ml-2">รีเซ็ต</a>
     </form>
 
     <?php if ($total_records > 0): ?>
         <div class="overflow-x-auto">
             <table class="min-w-full border-collapse border border-gray-300">
-                <thead class="bg-[#320A6B] text-white">
+                <thead class="bg-[#16213E] text-white">
                     <tr>
                         <th class="p-2 text-left text-sm">ชื่อพนักงาน</th>
                         <th class="p-2 text-left text-sm">คะแนน</th>
                         <th class="p-2 text-left text-sm">ความคิดเห็น</th>
-                        <?php if($role == "admin"): ?>
+                        <?php if ($role == "admin"): ?>
                             <th class="p-2 text-left text-sm">จัดการ</th>
                         <?php endif; ?>
                     </tr>
@@ -103,7 +108,7 @@ $result = mysqli_stmt_get_result($stmt_data);
                             <td class="p-2 max-w-sm truncate" title="<?= htmlspecialchars($row['comment']) ?>">
                                 <?= nl2br(htmlspecialchars($row['comment'])) ?>
                             </td>
-                            <?php if($role == "admin"): ?>
+                            <?php if ($role == "admin"): ?>
                                 <td class="p-2"><a href="#" class="text-red-600 hover:underline">ลบ</a></td>
                             <?php endif; ?>
                         </tr>
@@ -116,12 +121,12 @@ $result = mysqli_stmt_get_result($stmt_data);
             <nav class="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                     <?php
-                        $link = "?page=self_dashboard&p=$i";
-                        if (!empty($filter_department)) {
-                            $link .= "&department=$filter_department";
-                        }
-                        $is_active = ($i == $current_page);
-                        $class = $is_active ? 'z-10 bg-[#4e1f91] text-white' : 'bg-white text-gray-500 hover:bg-gray-50';
+                    $link = "?page=self_dashboard&p=$i";
+                    if (!empty($filter_department)) {
+                        $link .= "&department=$filter_department";
+                    }
+                    $is_active = ($i == $current_page);
+                    $class = $is_active ? 'z-10 bg-[#16213E] text-white' : 'bg-white text-gray-500 hover:bg-gray-50';
                     ?>
                     <a href="<?= $link ?>" class="relative inline-flex items-center px-4 py-2 border text-sm font-medium <?= $class ?>">
                         <?= $i ?>

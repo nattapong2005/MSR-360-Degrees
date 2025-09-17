@@ -2,28 +2,7 @@
 
 include 'css.php';
 include 'db.php';
-
 session_start();
-
-$error = "";
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $password = md5($password);
-    $sql = "SELECT * FROM users WHERE email='$email' AND password ='$password'";
-    $result = mysqli_query($conn, $sql);
-    if (mysqli_num_rows($result) > 0) {
-        $row = mysqli_fetch_assoc($result);
-        $_SESSION['user'] = $row;
-        header("Location: index.php");
-        exit();
-    } else {
-        $error = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
-    }
-}
-
 
 
 ?>
@@ -63,11 +42,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <p class="text-gray-500">เข้าสู่ระบบเพื่อประเมินผลการทำงาน</p>
                 </div>
 
-                <?php if ($error) { ?>
-                    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-5" role="alert">
-                        <span class="block sm:inline"><?= $error ?></span>
-                    </div>
-                <?php } ?>
 
                 <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
 
@@ -136,3 +110,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </body>
 
 </html>
+
+
+<?php
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $password = md5($password);
+    $sql = "SELECT * FROM users WHERE email='$email' AND password ='$password'";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        $row = mysqli_fetch_assoc($result);
+        $_SESSION['user'] = $row;
+        ToastWithRedirect("success", "เข้าสู่ระบบสําเร็จ", "index.php");
+    } else {
+        showToast("error", "อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+    }
+}
+
+?>
