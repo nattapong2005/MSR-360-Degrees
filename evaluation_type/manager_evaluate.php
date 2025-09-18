@@ -7,12 +7,26 @@
 // $query = mysqli_query($conn, $sql);
 $period_id = $_SESSION['period_id'];
 
-// เช็คว่าคุณประเมินหัวหน้าไปแล้วหรือยัง
-$sqlCheck = "SELECT manager.user_id,manager.name,ev.status,departments.department_name FROM users AS employee 
+if ($user['role'] == "ceo") {
+    $sqlCheck = "SELECT manager.user_id,manager.name,ev.status,departments.department_name 
+    FROM users AS ceo
+    LEFT JOIN users AS manager ON manager.manager_id = ceo.user_id 
+    LEFT JOIN departments ON manager.department_id = departments.department_id
+    LEFT JOIN evaluations AS ev on ev.subject_id = manager.user_id 
+         AND ev.evaluator_id = ceo.user_id 
+         AND ev.period_id = $period_id
+    WHERE ceo.user_id = $user_id";
+} else {
+
+    // เช็คว่าคุณประเมินหัวหน้าไปแล้วหรือยัง
+    $sqlCheck = "SELECT manager.user_id,manager.name,ev.status,departments.department_name 
+FROM users AS employee 
 JOIN users AS manager ON employee.manager_id = manager.user_id 
 JOIN departments ON manager.department_id = departments.department_id
 LEFT JOIN evaluations AS ev ON ev.subject_id = manager.user_id AND ev.evaluator_id = employee.user_id 
 AND ev.period_id = $period_id WHERE employee.user_id = $user_id";
+}
+
 
 $queryCheck = mysqli_query($conn, $sqlCheck);
 // $rowCheck = mysqli_fetch_assoc($queryCheck);

@@ -1,5 +1,9 @@
 <?php
 
+if (isset($_GET['period_id'])) {
+    $_SESSION['period_id'] = $_GET['period_id'];
+}
+
 $period_id = $_SESSION['period_id'];
 $sql = "SELECT * FROM evaluation_periods WHERE period_id = $period_id";
 $query = mysqli_query($conn, $sql);

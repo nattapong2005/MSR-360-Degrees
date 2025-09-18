@@ -116,7 +116,7 @@ switch ($row['role']) {
                         case 'account':
                             include 'account.php';
                             break;
-                        case 'ceo_dashboard':
+                        case 'dashboard':
                             include 'pages/ceo/dashboard.php';
                             break;
                         // Dashboard kub
@@ -156,6 +156,12 @@ switch ($row['role']) {
                             break;
                         case 'department':
                             include 'pages/admin/department/department.php';
+                            break;
+                        case 'question':
+                            include 'pages/admin/question/question.php';
+                            break;
+                        case 'form_question':
+                            include 'pages/admin/question/form_question.php';
                             break;
                         default:
                             include 'main.php';

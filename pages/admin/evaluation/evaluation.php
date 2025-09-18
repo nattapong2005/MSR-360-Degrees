@@ -162,7 +162,7 @@ $query = mysqli_query($conn, $sql);
     function deletePeriod(period_id) {
         Swal.fire({
             title: 'ยืนยันหรือไม่?',
-            text: 'คุณต้องการรายการประเมินหรือไม่?',
+            text: 'คุณต้องการลบรายการประเมินหรือไม่?',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonText: 'ยืนยัน',

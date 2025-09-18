@@ -11,7 +11,7 @@ $period = mysqli_fetch_assoc($query);
 
 $evaluates = [
     ['title' => 'ประเมินหัวหน้าแผนก', 'url' => '?page=manager_evaluate', 'icon' => 'fa-user-tie'],
-    ['title' => 'ดูผลการประเมิน', 'url' => '?page=ceo_dashboard', 'icon' => 'fa-folder-open'],
+    ['title' => 'ดูผลการประเมิน', 'url' => '?page=dashboard', 'icon' => 'fa-folder-open'],
 ];
 
 ?>
