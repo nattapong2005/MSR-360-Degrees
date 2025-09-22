@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $sqlAns = "INSERT INTO answers (evaluation_id, score, comment) VALUES ($evaluation_id, $total_score, '$comment' )";
         mysqli_query($conn, $sqlAns);
         mysqli_commit($conn);
-        echo "<script>alert('ส่งแบบประเมินเรียบร้อยแล้ว'); window.location.href='index.php';</script>";
+        ToastWithRedirect("success", "ส่งแบบประเมินสเรียบร้อยแล้ว", "?page=evaluation");
     } catch (Exception $e) {
         mysqli_rollback($conn);
         echo "Error: " . $e->$getMessage();

@@ -4,11 +4,11 @@ $sql = "SELECT * FROM departments";
 $query = mysqli_query($conn, $sql);
 
 ?>
-<section class="px-4 py-6 bg-gray-50 min-h-screen">
+<section class="px-4 py-6 min-h-screen">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
         <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3 sm:mb-0">
             <i class="fa-solid fa-hotel"></i>
-            จัดการแผนก
+            จัดการข้อมูลแผนก
         </h1>
         <button onclick="showAddEvaluationModal()" class="cursor-pointer bg-[#16213E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md ">
             <i class="fa-solid fa-plus mr-2"></i>เพิ่มแผนก

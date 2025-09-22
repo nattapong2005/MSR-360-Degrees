@@ -35,6 +35,7 @@ switch ($row['role']) {
         break;
 }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -132,9 +133,9 @@ switch ($row['role']) {
                         case 'cross_dashboard':
                             include 'pages/dashboard/cross.php';
                             break;
-                        case 'dashboard':
-                            include 'pages/admin/dashboard.php';
-                            break;
+                        // case 'dashboard':
+                        //     include 'pages/admin/dashboard.php';
+                        //     break;
                         // Admin kub
                         case 'user_manage':
                             include 'pages/admin/user/user.php';

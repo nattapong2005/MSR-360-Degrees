@@ -24,10 +24,10 @@ $current_page = $_GET['page'] ?? 'main';
             <?php
             // เมนูสำหรับ Admin
             if ($row['role'] == 'admin') {
-                echo '<li><a href="?page=user_manage" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'user_manage') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-users-gear"></i> จัดการผู้ใช้งาน</a></li>';
+                echo '<li><a href="?page=user_manage" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'user_manage') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-users-gear"></i> จัดการพนักงาน</a></li>';
                 echo '<li><a href="?page=department" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'department') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-hotel"></i> จัดการแผนก</a></li>';
-                echo '<li><a href="?page=question" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'question') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-book"></i> จัดการคำถาม</a></li>';
-                echo '<li><a href="?page=evaluation" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'evaluation') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-calendar"></i> จัดการประเมิน</a></li>';
+                echo '<li><a href="?page=question" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'question') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-book"></i> จัดการฟอร์ม</a></li>';
+                echo '<li><a href="?page=evaluation" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'evaluation') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-calendar"></i> จัดการรอบประเมิน</a></li>';
                 echo '<li><a href="?page=select_department" class="block px-4 py-2 rounded-md hover:bg-red-700 transition ' . (($current_page == 'select_department') ? 'bg-red-700' : '') . '"><i class="fa-solid fa-pen"></i> จัดการสิทธิ์ประเมิน</a></li>';
             }
 

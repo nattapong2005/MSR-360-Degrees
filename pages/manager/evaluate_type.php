@@ -17,7 +17,7 @@ $evaluates = [
 ];
 ?>
 
-<section class="px-4 py-6 bg-gray-50 min-h-screen">
+<section class="px-4 py-6 min-h-screen">
     <div class="flex justify-between items-center mb-5">
         <h1 class="text-3xl font-extrabold text-gray-800"><i class="fa-solid fa-book"></i> <?= $period['period_name'] ?> </h1>
         <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>

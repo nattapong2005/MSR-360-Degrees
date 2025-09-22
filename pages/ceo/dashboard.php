@@ -18,7 +18,7 @@ $evaluates = [
 ?>
 
 
-<section class="px-4 py-6 bg-gray-50 min-h-screen">
+<section class="px-4 py-6 min-h-screen">
     <div class="flex justify-between items-center mb-5">
         <div>
             <h1 class="text-3xl font-extrabold text-gray-800 mb-2"><i class="fa-solid fa-book"></i> รายงาน<?= $period['period_name'] ?> </h1>

@@ -10,13 +10,15 @@
     }
 
     body {
-        background-color: #f6f9fc;
+        background-color: #e6e7e8;
     }
 
     .active {
         background-color: #ff5722;
         color: white;
     }
+
+
 </style>
 
 <?php
@@ -65,7 +67,7 @@ function ToastWithRedirect($icon = 'warning', $title = 'ใส่ข้อคว
 
 function showConfirm($confirmMessage, $toastMessage, $redirectUrl)
 {
-echo <<<EOT
+    echo <<<EOT
 <script>
 Swal.fire({
     title: 'ยืนยันหรือไม่?',

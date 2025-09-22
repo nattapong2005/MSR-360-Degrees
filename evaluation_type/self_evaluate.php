@@ -38,6 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         mysqli_query($conn, $sqlAns);
         mysqli_commit($conn);
         echo "<script>alert('ส่งแบบประเมินเรียบร้อยแล้ว'); window.location.href='index.php';</script>";
+        ToastWithRedirect("success", "ส่งแบบประเมินเรียบร้อยแล้ว", "index.php");
     } catch (Exception $e) {
         mysqli_rollback($conn);
         echo "Error: " . $e->$getMessage();
@@ -45,9 +46,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
-<section class="bg-white border border-gray-300 shadow-md rounded-lg p-6">
+<section class=" p-6">
     <div class="flex justify-between items-center mb-5">
-        <h1 class="text-3xl font-extrabold text-gray-800  flex items-center gap-3">
+        <h1 class="text-3xl font-extrabold flex items-center gap-3">
             <i class="fas fa-user-check"></i> ประเมินตนเอง
         </h1>
         <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>

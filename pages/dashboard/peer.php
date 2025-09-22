@@ -70,7 +70,6 @@ $result = mysqli_stmt_get_result($stmt_data);
     <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
    </div>
 
-
     <form method="GET" class="mb-6 flex items-center gap-4">
         <input type="hidden" name="page" value="peer_dashboard">
         <!-- <label for="department" class="text-gray-700 font-medium">ค้นหาตามแผนก:</label> -->

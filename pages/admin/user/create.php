@@ -11,7 +11,7 @@ $queryManager = mysqli_query($conn, $sqlManager);
 
 ?>
 
-<section class="p-6 lg:p-10 bg-gray-50 min-h-screen">
+<section class="p-6 lg:p-10 min-h-screen">
     <div class="max-w-5xl mx-auto bg-white shadow-xl rounded-lg p-6 md:p-8">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
             <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">

@@ -51,9 +51,7 @@ $rowScore = mysqli_fetch_assoc($queryScore);
             </div>
         </div>
         <div class="flex items-center gap-2 mt-4 sm:mt-0">
-            <a href="javascript:history.back()" class="bg-gray-200 text-gray-800 hover:bg-gray-300 px-4 py-2 rounded-lg transition-colors">
-                <i class="fa-solid fa-chevron-left"></i> ย้อนกลับ
-            </a>
+            <a class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded" href="javascript:history.back()"><i class="fa-solid fa-backward"></i> ย้อนกลับ</a>
             <button onclick="addQuestion()" class="cursor-pointer bg-[#16213E] hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition-colors flex items-center gap-2">
                 <i class="fa-solid fa-plus"></i>
                 <span>เพิ่มคำถามใหม่</span>
@@ -298,8 +296,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if (isset($_POST['action']) && $_POST['action'] === 'update') {
         $q_id = $_POST['q_id'];
         $q_name = $_POST['q_name'];
-        $q_score = $_POST['q_score'];
-        
+        $q_score = intval($_POST['q_score']);
+
+        $sql_check = "SELECT SUM(max_score) AS total_score FROM questions WHERE department_id = $department_id AND question_id != $q_id";
+        $query_check = mysqli_query($conn, $sql_check);
+        $current_score = mysqli_fetch_assoc($query_check);
+
+        if (($current_score['total_score'] + $q_score) > 100) {
+            ToastWithRedirect("error", "คะแนนไม่สามารถเกิน 100 คะแนน", "?page=form_question&department_id=$department_id");
+            return;
+        }
+
         $sql = "UPDATE questions SET question_text = '$q_name', max_score = '$q_score' WHERE question_id = $q_id";
         $query = mysqli_query($conn, $sql);
         if ($query) {
@@ -307,11 +314,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         } else {
             ToastWithRedirect("error", "แก้ไขคําถามไม่สําเร็จ", "?page=form_question&department_id=$department_id");
         }
-        
     } else {
 
         $question_name = $_POST['question_name'];
         $score = $_POST['score'];
+
+        $sqlCheckScore = "SELECT SUM(max_score) AS total_score FROM questions WHERE department_id = $department_id";
+        $queryCheckScore = mysqli_query($conn, $sqlCheckScore);
+        $currentScore = mysqli_fetch_assoc($queryCheckScore);
+
+        if ($score + $currentScore['total_score'] > 100) {
+            ToastWithRedirect("error", "คะแนนไม่สามารถเกิน 100 คะแนน", "?page=form_question&department_id=$department_id");
+            return;
+        }
         $sql = "INSERT INTO questions (question_text, max_score, department_id) VALUES ('$question_name', '$score', $department_id)";
         $query = mysqli_query($conn, $sql);
         if ($query) {

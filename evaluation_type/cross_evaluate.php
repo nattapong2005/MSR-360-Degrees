@@ -5,17 +5,17 @@ $department_id = $user['department_id'];
 // JOIN manager_responsibilities mr ON d.department_id = mr.department_id WHERE mr.user_id = $user_id";
 
 // ตรวจสอบว่าเราประเมินแผนกไหนบ้าง
-$sql = "SELECT d.department_id,d.department_name FROM departments d 
+$sql = "SELECT d.icon,d.color,d.department_id,d.department_name FROM departments d 
 JOIN department_rules dr ON d.department_id = dr.subject_department_id 
 WHERE dr.evaluator_department_id = $department_id AND d.department_id != $department_id";
+
 $query = mysqli_query($conn, $sql);
 
 
 
 ?>
 
-<section class="px-4 py-6 bg-gray-50 min-h-screen">
-    <!-- หัวข้อหลัก -->
+<section class="px-4 py-6 min-h-screen">
     <div class="mb-4 flex items-center justify-between">
         <div>
             <h1 class="text-3xl font-extrabold text-gray-800 flex items-center gap-3">
@@ -30,14 +30,13 @@ $query = mysqli_query($conn, $sql);
 
         </div>
     </div>
-
     <!-- รายการแผนก -->
     <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <?php while ($row = mysqli_fetch_assoc($query)) { ?>
             <a href="?page=cross_form_evaluate&department_id=<?= $row['department_id'] ?>"
                 class="flex flex-col items-center justify-center text-center gap-3 w-full font-semibold bg-white p-5 rounded-lg shadow-md border border-gray-300 hover:border-red-700 group">
-                <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center text-2xl mb-4 group-hover:bg-red-600 group-hover:text-white transition">
-                    <i class="fa-solid fa-users-line"></i>
+                <div class="w-16 h-16 text-[<?php echo $row['color'] ?>] rounded-full flex items-center justify-center text-2xl mb-4  transition">
+                    <i class="<?php echo $row['icon'] ?> text-5xl"></i>
                 </div>
                 <span class="text-lg">แผนก <?= htmlspecialchars($row['department_name']) ?></span>
             </a>

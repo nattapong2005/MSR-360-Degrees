@@ -50,11 +50,12 @@ $total_pages = ceil($total_records / $records_per_page);
 
 
 // --- 4. ดึงข้อมูลสำหรับหน้าปัจจุบัน (เพิ่ม LIMIT และ OFFSET) ---
-$data_sql = "SELECT subject.name AS subject_name, d_subject.department_name AS subject_department, evaluator.name AS evaluator_name,
+$data_sql = "SELECT ev.evaluation_id,subject.name AS subject_name, d_subject.department_name AS subject_department, evaluator.name AS evaluator_name,
     d_evaluator.department_name AS evaluator_department, ans.score AS score, ans.comment AS comment "
     . $base_sql
     . " ORDER BY subject.name ASC, evaluator.name ASC"
     . " LIMIT ? OFFSET ?";
+
 
 $stmt_data = mysqli_prepare($conn, $data_sql);
 $params[] = $records_per_page;
@@ -111,7 +112,7 @@ $result = mysqli_stmt_get_result($stmt_data);
                             <td class="p-2 font-bold"><?= htmlspecialchars($row['score']) ?></td>
                             <td class="p-2 w-[622px]"><?= nl2br(htmlspecialchars($row['comment'])) ?></td>
                             <?php if ($role == "admin"): ?>
-                                <td class="p-2"><a href="#" class="text-red-600 hover:underline">ลบ</a></td>
+                                <td class="p-2"><button onclick="deleteEvaluation(<?= $row['evaluation_id']; ?>)" class="py-1 px-2 bg-red-500 hover:bg-red-600 text-white rounded cursor-pointer">ลบ</button></td>
                             <?php endif; ?>
                         </tr>
                     <?php endwhile; ?>
@@ -145,3 +146,40 @@ $result = mysqli_stmt_get_result($stmt_data);
         <p class="text-red-600 font-medium">ไม่พบข้อมูล</p>
     <?php endif; ?>
 </div>
+
+
+
+<script>
+    function deleteEvaluation(eval_id) {
+        Swal.fire({
+            title: 'ยืนยันหรือไม่?',
+            text: 'คุณต้องการลบการประเมินหรือไม่ ?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'ยืนยัน',
+            cancelButtonText: 'ยกเลิก',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '?page=manager_dashboard&delete_eval_id=' + eval_id;
+            }
+        });
+    }
+</script>
+
+
+<?php
+
+if(isset($_GET['delete_eval_id'])) {
+
+    $eval_id = $_GET['delete_eval_id'];
+    $sql = "DELETE FROM evaluations WHERE evaluation_id = $eval_id";
+    $query = mysqli_query($conn, $sql);
+    if ($query) {
+        ToastWithRedirect("success", "ลบการประเมินเรียบร้อย", "?page=manager_dashboard");
+    } else {
+        ToastWithRedirect("error", "ลบการประเมินไม่สําเร็จ", "?page=manager_dashboard");
+    }
+
+}
+
+?>

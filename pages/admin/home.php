@@ -3,8 +3,8 @@ $sql = "SELECT * FROM evaluation_periods WHERE status = 'active'";
 $query = mysqli_query($conn, $sql);
 ?>
 
-<section class="px-4 py-6 bg-gray-50 min-h-screen">
-    <h1 class="text-3xl font-extrabold text-gray-800 mb-6 "><i class="fa-solid fa-list-ul"></i> รายการประเมินทั้งหมด</h1>
+<section class="px-4 py-6 min-h-screen">
+    <h1 class="text-3xl font-extrabold text-gray-800 mb-6 "><i class="fa-solid fa-list-ul"></i> ดูผลการประเมินทั้งหมด</h1>
     <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <?php while ($row = mysqli_fetch_assoc($query)) { ?>
             <a href="?page=dashboard&period_id=<?php echo $row['period_id'] ?>" class="group block bg-white border border-gray-200 rounded-xl p-6 shadow hover:shadow-lg hover:border-red-600 transition duration-300 ease-in-out">

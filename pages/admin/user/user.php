@@ -54,7 +54,7 @@ $sql = "SELECT users.user_id,users.name, users.email, users.role, users.created_
 $query = mysqli_query($conn, $sql);
 ?>
 
-<section class="p-4 sm:p-6 lg:p-8 bg-gray-50 min-h-screen">
+<section class="p-4 sm:p-6 lg:p-8 min-h-screen">
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6">
         <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3 sm:mb-0">
             <i class="fa-solid fa-users"></i>
