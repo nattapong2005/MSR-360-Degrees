@@ -1,5 +1,10 @@
 <?php
 
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+
+
 $sqlDept = "SELECT department_id,department_name FROM departments";
 $queryDept = mysqli_query($conn, $sqlDept);
 
@@ -11,7 +16,7 @@ $queryManager = mysqli_query($conn, $sqlManager);
 
 ?>
 
-<section class="p-6 lg:p-10 min-h-screen">
+<section class="p-6 lg:p-10">
     <div class="max-w-5xl mx-auto bg-white shadow-xl rounded-lg p-6 md:p-8">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
             <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
@@ -22,6 +27,7 @@ $queryManager = mysqli_query($conn, $sqlManager);
         </div>
 
         <form action="" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <input type="hidden" name="action" value="create_user">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">ชื่อ-สกุล</label>
                 <input name="name" type="text" placeholder="กรอกชื่อ-นามสกุล"
@@ -83,9 +89,35 @@ $queryManager = mysqli_query($conn, $sqlManager);
     </div>
 </section>
 
+<section class="p-6 lg:p-10">
+    <div class="max-w-5xl mx-auto bg-white shadow-xl rounded-lg p-6 md:p-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+            <h1 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                <i class="fa-solid fa-user-plus"></i>
+                อัพโหลดข้อมูลพนักงาน Excel (xlsx,csv)
+            </h1>
+            <a href="download.php?file=user.xlsx" class="bg-[#16213E]/90 text-white hover:bg-red-800 px-3 py-2 rounded"><i class="fa-solid fa-download"></i> ดาวน์โหลดตัวอย่าง</a>
+
+        </div>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="action" value="upload_excel">
+            <div class="mb-2">
+                <label class="block font-medium text-gray-700 mb-1">เลือกไฟล์ที่จะอัพโหลด</label>
+                <input required name="file" type="file" accept=".xlsx,.xls,.csv" class="cursor-pointer bg-gray-300 w-full rounded-lg border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 px-3 py-2">
+            </div>
+            <div class="mb-2 flex justify-end">
+                <button class="cursor-pointer px-6 py-2 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"><i class="fa-solid fa-upload mr-2"></i> อัพโหลดไฟล์</button>
+            </div>
+        </form>
+
+    </div>
+</section>
+
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['action']) && $_POST['action'] == "create_user") {
 
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -113,6 +145,45 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $query = mysqli_query($conn, $sql);
     if ($query) {
         showToast("success", "เพิ่มข้อมูลเรียบร้อย");
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['action']) && $_POST['action'] == "upload_excel") {
+
+    $now = date("Ymd_His");
+    $upload_path = 'upload_excel/users/';
+    if (!is_dir($upload_path)) {
+        mkdir($upload_path, 0755, true);
+    }
+    $originalName = $_FILES['file']['name'];
+    $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
+    $newName = $originalName . "_" . $now  . "." . $ext;
+    $targetFile = $upload_path . $newName;
+
+    if (!move_uploaded_file($_FILES['file']['tmp_name'], $targetFile)) {
+        // ToastWithRedirect("error", "อัพโหลดไฟล์ไม่สําเร็จ", "?page=create_user");
+    }
+
+    $spreadsheet = IOFactory::load($targetFile);
+    $sheet = $spreadsheet->getActiveSheet();
+    $data = $sheet->toArray();
+
+    foreach ($data as $key => $value) {
+        if ($key == 0) continue;
+        $name = $value[0];
+        $department_id = $value[1];
+        $role = $value[2];
+        $email = $value[3];
+        $password  = $value[4];
+        $password = md5($password);
+        $manager_id = $value[5];
+        $sql = "INSERT INTO users (email,password,name,role,department_id,manager_id) VALUES ('$email','$password','$name','$role',$department_id,$manager_id)";
+        $query = mysqli_query($conn, $sql);
+        if ($query) {
+            showToast("success", "เพิ่มข้อมูลเรียบร้อย");
+        } else {
+            showToast("error", "เพิ่มข้อมูลไม่สําเร็จ");
+        }
     }
 }
 

@@ -1,0 +1,17 @@
+{
+    "name": "user-029/htdocs",
+    "autoload": {
+        "psr-4": {
+            "User029\\Htdocs\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nattapong2005",
+            "email": "azzzx30089@gmail.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "1.28"
+    }
+}
